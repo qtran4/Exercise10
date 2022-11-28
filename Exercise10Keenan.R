@@ -39,6 +39,14 @@ for (i in 1:nrow(rawData)) {
   }
 }
 
+#add final score entries
+final_entry_uw <- data.frame(40,UWCumScore)
+final_entry_msu <- data.frame(40, MSUCumScore)
+names(final_entry_msu)<- c('time', 'score')
+names(final_entry_uw)<- c('time', 'score')
+uw<-rbind(uw, final_entry_uw)
+msu<-rbind(msu, final_entry_msu)
+
 #plot the cumulative scores
 ggplot(data=msu, aes(x=time, y=score), color='green') + 
   geom_line() + 
