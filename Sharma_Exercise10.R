@@ -39,24 +39,24 @@ ggplot(score_dataframe, aes(time))+
 #number is higher, and “correct!” if the guess is correct. The player can continue 
 #guessing up to 10 times.
 
-i <- 1
+count <- 1
 #pick a random number from 1 to 100
 Guess <- sample(1:100,1)
 Guess <- as.numeric(Guess)
-while (i <= 10) {
+while (count <= 10) {
   reply <- readline(prompt = "Enter a number between 1 and 100:")
   reply <- as.numeric(reply)
-  if(Guess < reply && i < 10){
+  if(Guess < reply && count < 10){
     print("Guess a lower number, please!")
-    i <- i+1
-  }else if(Guess > reply && i < 10){
+    count <- count+1
+  }else if(Guess > reply && count < 10){
     print("Guess a higher number, please!")
-  i <- i + 1
+  count <- count + 1
   }else if (Guess == reply){
     print("You win")
     break
   }
-  else if(i == 10){
+  else if(count == 10){
     print("Sorry :(, you cant make guess for more than 10 times")
     break
   }
