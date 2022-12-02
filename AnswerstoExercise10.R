@@ -9,32 +9,52 @@ library(ggplot2)
 
 #retrieving data
 scores_data<-read.table("UWvMSU_1-22-13.txt", header = TRUE)
-#creating a blank slate for UW and MSU
-MSU_score=0
-UW_score=0
+#creating a blank score slate for UW and MSU
+MSU<-numeric(nrow(scores_data))
+UW<-numeric(nrow(scores_data))
+#creating data frame
+scores<-data.frame(time=scores_data$time, UW, MSU)
 #Now to make a for loop to add score as time progresses
-####file is already in order from the beginning time to end, so no need to make
-####a time vector
 for (i in 1:nrow(scores_data)){
   if(scores_data$team[i]=="MSU"){
     #this is for team MSU, if they score
-    scores_data$score=scores_data$score[i]+MSU_score
-    #adding their score to their score slate
-    MSU_score=scores_data$score
-    #keeping the score for UW the same if the ith was MSU
-    scores_data$UW_score[i]=UW_score
-  }else if(scores_data$team[i]=="UW"){
-    #doing the same thing for UW
-    scores_data$score=scores_data$score[i]+UW_score
-    UW_score=scores_data$score
-    scores_data$MSU_score[i]=MSU_score
+    scores$MSU[i]<-scores_data$score[i]
+  }else{
+    #only one other team, so else is for UW
+    scores$UW[i]<-scores_data$score[i]
+  }
+} 
+##getting the cumulative scores for UW and MSU
+for (i in 2:nrow(scores_data)){
+  scores$MSU[i]<-scores$MSU[i]+scores$MSU[i-1]
+}
+for (i in 2:nrow(scores_data)){
+  scores$UW[i]<-scores$UW[i]+scores$UW[i-1]
+}
+#creating the plot
+ggplot(data=scores, aes(x=time)) + 
+  geom_line(aes(y=MSU), color ="black") + 
+  geom_line(aes(y=UW), color="blue") +
+  xlab("time") +
+  ylab("Team Score")
+
+#answer to prompt 2
+
+#creating a random number picker
+RandomNumb<-sample(x=c(1:100), size=1)
+#For loop for guessing game, max number of tries is 10
+
+for (i in 1:11){
+  answer=readline(prompt = "Guess a number from 1-1oo")
+  if (answer<RandomNumber){
+    print("HIGHER")
+  }else if (answer>RandomNumber){
+    print("LOWER")
+  }else if (answer==RandomNumber){
+    print("CORRECT!")
+    break #a break to end game if guess is correct and before 11th try
+  }elseif (i==11){
+    print("YoU LOSE")
+    break # out of guesses
   }
 }
-
-#Creating data frame
-UWvMSU<-rbind(data.frame(time=0,team=NA,score=0,MSU_score=0,UW_score=0), scores_data)
-#creating the plot
-ggplot()+geom_line(data=UWvMSU, aes(x=time,y=MSU_score), color="black")+geom_line(data=UWvMSU, aes(x=time,y=UW_score), color="blue")+xlab("time")+ylab("Team Score")
-
-
-
