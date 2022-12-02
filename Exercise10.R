@@ -1,7 +1,7 @@
 #Elias Issa Exercise10
 
 #Set Working Directory
-setwd("/Users/elias/Downloads/Exercise10-main")
+setwd("/Users/elias/Downloads/Exercise10")
 #Initialize ggplot2
 library(ggplot2)
 #Question 1
@@ -18,14 +18,12 @@ UW_cum<-subset(data,team == "UW")
 #adds the previous cumulative score to the point total of the next score for UW
 for(i in 2:nrow(UW)){
   UW_cum$score[i] <-UW_cum$score[i-1]+UW$score[i]
-  print(UW_cum$score[i])
 }
 
 #adds the previous cumulative score to the point total of the next score for MSU
 
 for(i in 2:nrow(MSU)){
   MSU_cum$score[i] <-MSU_cum$score[i-1]+MSU$score[i]
-  print(MSU_cum$score[i])
 }
 
 #Plot of both cumulative data vs time with different colors
