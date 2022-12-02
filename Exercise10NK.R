@@ -4,6 +4,8 @@
 
 library(tidyverse)
 
+### Cumulative Scores
+
 setwd("C:/Users/Natha/Desktop/Biocomputing/Exercise10")
 game <- read.table("UWvMSU_1-22-13.txt",sep = "", header = TRUE)
 
@@ -31,7 +33,10 @@ game2 <- rbind(MSU,UW)
 ggplot(game2, aes(x = time, y = cum_score, group = team)) + 
   geom_line(aes(color = team),linewidth = 1.5) + ylab("Cumulative Score")
 
-###
+
+
+### Number Game
+
 number = sample(1:100,1)
 count = 0
 
